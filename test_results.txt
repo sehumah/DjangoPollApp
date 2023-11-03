@@ -1,0 +1,87 @@
+Creating test database for alias 'default'...
+...F.F.F...EE
+======================================================================
+ERROR: test_future_question (polls.tests.QuestionResultViewTests)
+The result view of a question with a pub_date in the future returns a 404 not found.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/polls/tests.py", line 130, in test_future_question
+    url = reverse("polls:result", args=(future_question.id,))
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'result' not found. 'result' is not a valid view function or pattern name.
+
+======================================================================
+ERROR: test_past_question (polls.tests.QuestionResultViewTests)
+The result view of a question with a pub_date in the past displays the question's text.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/polls/tests.py", line 137, in test_past_question
+    url = reverse("polls:result", args=(past_question.id,))
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'result' not found. 'result' is not a valid view function or pattern name.
+
+======================================================================
+FAIL: test_future_question_and_past_question (polls.tests.QuestionIndexViewTests)
+Even if both past and future questions exist, only past questions are displayed.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/polls/tests.py", line 84, in test_future_question_and_past_question
+    self.assertQuerySetEqual(response.context["latest_question_list"], [question], )
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/test/testcases.py", line 1346, in assertQuerySetEqual
+    return self.assertEqual(list(items), values, msg=msg)
+AssertionError: Lists differ: [] != [<Question: Past question.>]
+
+Second list contains 1 additional elements.
+First extra element 0:
+<Question: Past question.>
+
+- []
++ [<Question: Past question.>]
+
+======================================================================
+FAIL: test_past_question (polls.tests.QuestionIndexViewTests)
+Questions with a pub_date in the past are displayed on the index page.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/polls/tests.py", line 66, in test_past_question
+    self.assertQuerySetEqual(response.context["latest_question_list"], [question])
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/test/testcases.py", line 1346, in assertQuerySetEqual
+    return self.assertEqual(list(items), values, msg=msg)
+AssertionError: Lists differ: [] != [<Question: Past question.>]
+
+Second list contains 1 additional elements.
+First extra element 0:
+<Question: Past question.>
+
+- []
++ [<Question: Past question.>]
+
+======================================================================
+FAIL: test_two_past_questions (polls.tests.QuestionIndexViewTests)
+The questions index page may display multiple questions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/polls/tests.py", line 93, in test_two_past_questions
+    self.assertQuerySetEqual(response.context["latest_question_list"], [question2, question1], )
+  File "/home/stephen/Desktop/Dev/PythonProjects/DjangoPollApp/venv/lib/python3.10/site-packages/django/test/testcases.py", line 1346, in assertQuerySetEqual
+    return self.assertEqual(list(items), values, msg=msg)
+AssertionError: Lists differ: [] != [<Question: Past question 2.>, <Question: Past question 1.>]
+
+Second list contains 2 additional elements.
+First extra element 0:
+<Question: Past question 2.>
+
+- []
++ [<Question: Past question 2.>, <Question: Past question 1.>]
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.034s
+
+FAILED (failures=3, errors=2)
+Destroying test database for alias 'default'...
